@@ -1,0 +1,20 @@
+# Konfigurasi dan data lokal
+/config/database.php
+.env
+.env.*
+!.env.example
+*.sql
+*.sql.gz
+*.bak
+*.log
+
+# Berkas unggahan pengguna
+/assets/uploads/*
+!/assets/uploads/.gitkeep
+
+# Pengaturan editor dan utilitas komputer lokal
+/.cursor/
+/.vscode/
+/add-php-to-path.ps1
+/add-php-to-path-user.ps1
+/FIX_PHP_PATH.md
