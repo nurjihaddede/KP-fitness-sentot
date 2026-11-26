@@ -7,7 +7,9 @@
  */
 
 // Start session
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Log activity sebelum logout
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
