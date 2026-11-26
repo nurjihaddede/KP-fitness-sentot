@@ -5,7 +5,7 @@ $page_title = isset($page_title) ? $page_title : "Fitness Sentot";
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#2563eb">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -40,13 +40,13 @@ $page_title = isset($page_title) ? $page_title : "Fitness Sentot";
         <div id="mobileOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden transition-opacity duration-300"></div>
         
         <!-- Sidebar -->
-        <div id="sidebar" class="bg-blue-900 text-white w-64 space-y-6 py-7 px-2 fixed md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50 shadow-lg md:shadow-none">
+        <div id="sidebar" class="bg-blue-900 text-white w-64 max-w-[85vw] space-y-6 py-7 px-2 fixed md:relative inset-y-0 left-0 z-[60] shadow-lg md:shadow-none">
             <div class="text-white flex items-center justify-between px-4 mb-6">
                 <div class="flex items-center space-x-2">
                     <i class="fas fa-dumbbell text-2xl"></i>
                     <span class="text-xl md:text-2xl font-extrabold">Fitness Sentot</span>
                 </div>
-                <button onclick="window.closeSidebar()" class="md:hidden text-white hover:text-gray-300 touch-manipulation p-2 -mr-2" aria-label="Close Menu">
+                <button type="button" id="sidebarClose" class="md:hidden text-white hover:text-gray-300 touch-manipulation p-2 -mr-2" aria-label="Tutup menu">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
@@ -87,7 +87,7 @@ $page_title = isset($page_title) ? $page_title : "Fitness Sentot";
             <header class="bg-white shadow sticky top-0 z-30">
                 <div class="flex items-center justify-between px-4 md:px-6 py-3 md:py-4">
                     <div class="flex items-center flex-1">
-                        <button onclick="window.toggleSidebar(); return false;" class="text-gray-500 focus:outline-none md:hidden touch-manipulation p-2 -ml-2 active:bg-gray-100 rounded" id="sidebarToggle" aria-label="Toggle Menu" type="button">
+                        <button type="button" class="text-gray-500 focus:outline-none md:hidden touch-manipulation p-2 -ml-2 active:bg-gray-100 rounded" id="sidebarToggle" aria-label="Buka menu" aria-expanded="false" aria-controls="sidebar">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
                         <h1 class="text-lg md:text-2xl font-semibold text-gray-800 ml-2 md:ml-4 truncate"><?php echo $page_title; ?></h1>

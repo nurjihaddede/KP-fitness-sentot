@@ -12,6 +12,9 @@ function isMember() {
 }
 
 function redirect($url) {
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
     header("Location: " . $url);
     exit();
 }

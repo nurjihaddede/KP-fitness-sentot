@@ -4,92 +4,61 @@
     </div>
 
     <script>
-    // Mobile Sidebar Functions - Pastikan di global scope
-    window.toggleSidebar = function() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('mobileOverlay');
-        
-        if (sidebar && overlay) {
-            const isHidden = sidebar.classList.contains('-translate-x-full');
-            
-            if (isHidden) {
-                // Buka sidebar
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                document.body.classList.add('sidebar-open');
-                document.body.style.overflow = 'hidden';
-            } else {
-                // Tutup sidebar
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
-                document.body.classList.remove('sidebar-open');
-                document.body.style.overflow = '';
-            }
+    (function () {
+        function isMobileNav() {
+            return window.matchMedia('(max-width: 767px)').matches;
         }
-    };
 
-    window.closeSidebar = function() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('mobileOverlay');
-        
-        if (sidebar && overlay) {
-            sidebar.classList.add('-translate-x-full');
-            overlay.classList.add('hidden');
-            document.body.classList.remove('sidebar-open');
-            document.body.style.overflow = '';
+        function setSidebar(open) {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('mobileOverlay');
+            var toggle = document.getElementById('sidebarToggle');
+            if (!sidebar || !overlay) return;
+            sidebar.classList.toggle('is-open', open);
+            overlay.classList.toggle('is-open', open);
+            overlay.classList.toggle('hidden', !open);
+            document.body.classList.toggle('sidebar-open', open);
+            if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         }
-    };
 
-    // Initialize setelah DOM ready
-    document.addEventListener('DOMContentLoaded', function() {
-        // Event listener untuk tombol hamburger
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', function(e) {
+        window.toggleSidebar = function () {
+            if (!isMobileNav()) return;
+            var sidebar = document.getElementById('sidebar');
+            setSidebar(!(sidebar && sidebar.classList.contains('is-open')));
+        };
+
+        window.closeSidebar = function () {
+            setSidebar(false);
+        };
+
+        var lastToggleAt = 0;
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#sidebarToggle')) {
                 e.preventDefault();
-                e.stopPropagation();
+                var now = Date.now();
+                if (now - lastToggleAt < 400) return;
+                lastToggleAt = now;
                 window.toggleSidebar();
-            });
-        }
-
-        // Event listener untuk overlay (close saat klik overlay)
-        const overlay = document.getElementById('mobileOverlay');
-        if (overlay) {
-            overlay.addEventListener('click', function(e) {
+                return;
+            }
+            if (e.target.closest('#sidebarClose') || e.target.closest('#mobileOverlay')) {
                 e.preventDefault();
-                e.stopPropagation();
                 window.closeSidebar();
-            });
-        }
-
-        // Close sidebar ketika klik link di dalam sidebar (mobile)
-        const sidebarLinks = document.querySelectorAll('#sidebar a');
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth < 768) {
-                    window.closeSidebar();
-                }
-            });
-        });
-
-        // Close sidebar saat resize ke desktop
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                if (window.innerWidth >= 768) {
-                    window.closeSidebar();
-                }
-            }, 250);
-        });
-
-        // Close sidebar saat ESC key ditekan
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
+                return;
+            }
+            if (e.target.closest('#sidebar a') && isMobileNav()) {
                 window.closeSidebar();
             }
         });
-    });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') window.closeSidebar();
+        });
+
+        window.addEventListener('resize', function () {
+            if (!isMobileNav()) window.closeSidebar();
+        });
+    })();
 
     // Service Worker Registration untuk PWA
     if ('serviceWorker' in navigator) {
