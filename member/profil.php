@@ -1,13 +1,13 @@
 <?php
-$page_title = "Profil Saya";
 require_once '../includes/auth.php';
-require_once '../includes/header.php';
 require_once '../config/database.php';
 
 if (!isMember()) {
-    header("Location: ../login.php");
-    exit();
+    redirect('../login.php');
 }
+
+$page_title = "Profil Saya";
+require_once '../includes/header.php';
 
 $database = new Database();
 $conn = $database->getConnection();
@@ -21,9 +21,9 @@ $stmt_member->execute([$member_id]);
 $member = $stmt_member->fetch(PDO::FETCH_ASSOC);
 
 if (!$member) {
+    $_SESSION = [];
     session_destroy();
-    header("Location: ../login.php");
-    exit();
+    redirect('../login.php');
 }
 
 // Get statistics

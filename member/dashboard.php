@@ -1,13 +1,13 @@
 <?php
-$page_title = "Dashboard Member";
 require_once '../includes/auth.php';
-require_once '../includes/header.php';
 require_once '../config/database.php';
 
 if (!isMember()) {
-    header("Location: ../login.php");
-    exit();
+    redirect('../login.php');
 }
+
+$page_title = "Dashboard Member";
+require_once '../includes/header.php';
 
 $database = new Database();
 $conn = $database->getConnection();
