@@ -1,6 +1,9 @@
 <?php
 $page_title = "Laporan";
 require_once '../includes/auth.php';
+if (!isAdmin()) {
+    redirect('../login.php');
+}
 require_once '../includes/header.php';
 require_once '../config/database.php';
 
@@ -44,7 +47,7 @@ $total_kehadiran_bulan = $stmt_kehadiran_bulan->fetch(PDO::FETCH_ASSOC)['total']
 
     <!-- Filter -->
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-        <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Laporan</label>
                 <select name="jenis_laporan" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -66,9 +69,15 @@ $total_kehadiran_bulan = $stmt_kehadiran_bulan->fetch(PDO::FETCH_ASSOC)['total']
                     <?php endfor; ?>
                 </select>
             </div>
-            <div class="flex items-end">
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+            <div class="md:col-span-3 flex flex-wrap gap-2">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                     <i class="fas fa-filter mr-2"></i>Filter
+                </button>
+                <button type="submit" formaction="cetak_laporan.php" name="format" value="pdf" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
+                    <i class="fas fa-file-pdf mr-2"></i>Unduh PDF
+                </button>
+                <button type="submit" formaction="cetak_laporan.php" formtarget="_blank" class="border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md">
+                    <i class="fas fa-print mr-2"></i>Pratinjau Cetak
                 </button>
             </div>
         </form>

@@ -27,8 +27,7 @@ if ($_POST && isset($_POST['tambah_pembayaran'])) {
     $stmt_update = $conn->prepare($query_update);
     $stmt_update->execute([$member_id]);
     
-    header("Location: pembayaran.php?success=Pembayaran berhasil dicatat");
-    exit();
+    redirect("pembayaran.php?success=" . urlencode("Pembayaran berhasil dicatat"));
 }
 
 // Handle success message dari GET

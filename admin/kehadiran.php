@@ -24,8 +24,7 @@ if ($_POST && isset($_POST['catat_kehadiran'])) {
         $stmt = $conn->prepare($query);
         $stmt->execute([$member_id, $tanggal, $waktu]);
         
-        header("Location: kehadiran.php?success=Kehadiran berhasil dicatat");
-        exit();
+        redirect("kehadiran.php?success=" . urlencode("Kehadiran berhasil dicatat"));
     } else {
         $error = "Member sudah hadir pada tanggal tersebut";
     }

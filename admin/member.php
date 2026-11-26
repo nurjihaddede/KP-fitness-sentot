@@ -24,8 +24,7 @@ if ($_POST) {
         $stmt = $conn->prepare($query);
         $stmt->execute([$kode_member, $nama, $jenis_kelamin, $alamat, $no_hp, $sekolah, $tanggal_bergabung, $tanggal_mulai, $tanggal_berakhir, $status_aktif]);
         
-        header("Location: member.php?success=Member berhasil ditambahkan");
-        exit();
+        redirect("member.php?success=" . urlencode("Member berhasil ditambahkan"));
     }
     
     if (isset($_POST['edit_member'])) {
@@ -44,8 +43,7 @@ if ($_POST) {
         $stmt = $conn->prepare($query);
         $stmt->execute([$nama, $jenis_kelamin, $alamat, $no_hp, $sekolah, $tanggal_bergabung, $tanggal_mulai, $tanggal_berakhir, $status_aktif, $id]);
         
-        header("Location: member.php?success=Member berhasil diupdate");
-        exit();
+        redirect("member.php?success=" . urlencode("Member berhasil diupdate"));
     }
 }
 
@@ -56,8 +54,7 @@ if (isset($_GET['delete'])) {
     $stmt = $conn->prepare($query);
     $stmt->execute([$id]);
     
-    header("Location: member.php?success=Member berhasil dihapus");
-    exit();
+    redirect("member.php?success=" . urlencode("Member berhasil dihapus"));
 }
 
 // Handle success message dari GET
