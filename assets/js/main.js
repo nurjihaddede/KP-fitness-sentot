@@ -14,14 +14,8 @@ function initializeApp() {
 
 // Sidebar functionality
 function initializeSidebar() {
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.querySelector('.sidebar');
-    
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-    }
+    // Menu mobile ditangani di includes/footer.php supaya tidak tertutup lagi
+    // oleh listener kedua pada tombol yang sama.
 }
 
 // Modal functionality

@@ -123,36 +123,42 @@
     animation: slideIn 0.3s ease-out;
 }
 
-/* Mobile menu styles */
-@media (max-width: 768px) {
-    .mobile-menu-open {
-        transform: translateX(0) !important;
-    }
-    
-    .mobile-menu-closed {
-        transform: translateX(-100%) !important;
-    }
-    
-    /* Ensure sidebar is above everything on mobile */
+/* Mobile drawer. !important overrides Tailwind translate utilities. */
+@media (max-width: 767px) {
     #sidebar {
-        z-index: 9999 !important;
+        transform: translateX(-105%) !important;
+        z-index: 60 !important;
+        transition: transform 0.25s ease;
+        will-change: transform;
+        pointer-events: none;
     }
-    
+
+    #sidebar.is-open {
+        transform: translateX(0) !important;
+        pointer-events: auto;
+    }
+
     #mobileOverlay {
-        z-index: 9998 !important;
+        z-index: 50 !important;
     }
-    
-    /* Prevent body scroll when sidebar is open */
+
+    #mobileOverlay.is-open {
+        display: block !important;
+    }
+
     body.sidebar-open {
         overflow: hidden !important;
-        position: fixed;
-        width: 100%;
     }
-    
-    /* Smooth sidebar animation */
+}
+
+@media (min-width: 768px) {
     #sidebar {
-        will-change: transform;
-        backface-visibility: hidden;
+        transform: none !important;
+        position: relative !important;
+    }
+
+    #mobileOverlay {
+        display: none !important;
     }
 }
 
@@ -259,11 +265,14 @@ button, .btn, a.button {
 
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
-    /* Larger touch targets (minimum 44x44px) */
-    button, a, input[type="button"], input[type="submit"], .btn {
+    /* Larger touch targets for controls, without stretching every link */
+    button, input[type="button"], input[type="submit"], .btn, #sidebar a, #sidebarToggle, #sidebarClose {
         min-height: 44px;
+    }
+
+    #sidebarToggle, #sidebarClose {
         min-width: 44px;
-        padding: 12px 16px;
+        min-height: 44px;
     }
 
     /* Better form inputs for mobile */
@@ -285,8 +294,8 @@ button, .btn, a.button {
         padding: 1rem;
     }
 
-    /* Better modal on mobile */
-    .fixed.inset-0 {
+    /* Better modal on mobile. Do not pad the menu overlay. */
+    .modal-backdrop.fixed.inset-0 {
         padding: 1rem;
     }
 
